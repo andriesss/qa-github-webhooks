@@ -3,7 +3,7 @@
 let github = require('octonode');
 let client = github.client(process.env['GITHUB_TOKEN']);
 
-module.exports.pr_title = (event, context, callback) => {
+module.exports.handler = (event, context, callback) => {
     let body = JSON.parse(event.body);
     console.log(event.body);
 
@@ -19,7 +19,7 @@ module.exports.pr_title = (event, context, callback) => {
     let payload = {
         state: 'success',
         description: 'PR title according to format',
-        context: 'egeniq/qa'
+        context: 'qa/pr-title'
     };
 
     if (!/^[A-Z]+\-[0-9]+/.test(body.pull_request.title)) {
