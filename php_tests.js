@@ -15,6 +15,15 @@ module.exports.handler = (event, context, callback) => {
         return;
     }
 
+    if (!body.pull_request.head.ref.includes('feature')) {
+        const response = {
+            statusCode: 204
+        };
+
+        callback(null, response);
+        return;
+    }
+
     let headers = new fetch.Headers();
     headers.append('Accept', 'application/vnd.github.diff');
     headers.append('Authorization', 'Basic ' + base64.encode(":" + process.env['GITHUB_TOKEN']));
@@ -24,9 +33,13 @@ module.exports.handler = (event, context, callback) => {
         headers: headers,
     });
 
+    console.log(event.body);
+
     promise
         .then(response => response.text())
         .then(patch => {
+            console.log(patch);
+
             let payload = {
                 state: 'success',
                 description: 'yay tests!',

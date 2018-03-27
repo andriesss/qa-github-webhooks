@@ -16,6 +16,15 @@ module.exports.handler = (event, context, callback) => {
         return;
     }
 
+    if (!body.pull_request.head.ref.includes('feature')) {
+        const response = {
+            statusCode: 204
+        };
+
+        callback(null, response);
+        return;
+    }
+
     let payload = {
         state: 'success',
         description: 'PR title according to format',
