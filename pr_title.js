@@ -31,7 +31,7 @@ module.exports.handler = (event, context, callback) => {
         context: 'qa/pr-title'
     };
 
-    if (!/^[A-Z]+\-[0-9]+/.test(body.pull_request.title)) {
+    if (!/^[A-Z0-9]+\-[0-9]+\: .+/.test(body.pull_request.title)) {
         payload.state = 'failure';
         payload.description = 'PR title should start with a ticket number';
     }
